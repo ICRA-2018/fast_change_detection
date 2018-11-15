@@ -1,0 +1,20 @@
+name: fast-change-detection
+
+distro: kinetic
+
+build: catkin_build
+
+runtime: nvidia
+
+packages:
+  - libeigen3-dev
+  - libboost-all-dev
+  - qtbase5-dev
+  - libglew-dev
+  - libopencv-dev
+
+source:
+  - name: glow
+    repo: https://github.com/jbehley/glow.git
+    depends:
+    build: catkin_build
