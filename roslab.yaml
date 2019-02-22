@@ -1,8 +1,29 @@
 name: fast-change-detection
 
-distro: kinetic
+base:
+  ubuntu: 16.04
+  ros: kinetic-ros-base
+  opengl: devel
 
 build: catkin_build
+
+apt:
+  - libeigen3-dev
+  - libboost-all-dev
+  - qtbase5-dev
+  - libqt5opengl5-dev
+  - libglew-dev
+  - libopencv-dev
+
+source:
+  - name: glow
+    repo: https://github.com/jbehley/glow.git
+    depends:
+    build: catkin_build
+
+
+distro: kinetic
+
 
 runtime: nvidia
 
@@ -13,8 +34,4 @@ packages:
   - libglew-dev
   - libopencv-dev
 
-source:
-  - name: glow
-    repo: https://github.com/jbehley/glow.git
-    depends:
-    build: catkin_build
+
