@@ -137,4 +137,16 @@ Rotate the view with the mouse while the right button is pressed. The keyboard i
 
 ## License
 
-This project is licensed under the FreeBSD License. See the LICENSE.txt file for details.
+
+This project is licensed under the Fgunzip ../dataset/statue/model.obj.gzreeBSD License. See the LICENSE.txt file for details.
+
+## Using with ROSLab
+```
+cd ~/catkin_ws/src/fast-change-detection/bin
+```
+```
+gunzip ../dataset/statue/model.obj.gz
+```
+```
+./fastcd_example ../dataset/statue
+```
