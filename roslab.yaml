@@ -21,17 +21,3 @@ source:
     depends:
     build: catkin_build
 
-
-distro: kinetic
-
-
-runtime: nvidia
-
-packages:
-  - libeigen3-dev
-  - libboost-all-dev
-  - qtbase5-dev
-  - libglew-dev
-  - libopencv-dev
-
-

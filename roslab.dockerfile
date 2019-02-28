@@ -6,8 +6,8 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 
-RUN apt-get update && apt-get -yq dist-upgrade \
- && apt-get install -yq --no-install-recommends \
+RUN apt-get -o Acquire::ForceIPv4=true update && apt-get -yq dist-upgrade \
+ && apt-get -o Acquire::ForceIPv4=true install -yq --no-install-recommends \
 	locales python-pip cmake \
 	python3-pip python3-setuptools git build-essential \
  && apt-get clean \
@@ -36,7 +36,7 @@ CMD ["jupyter", "lab", "--no-browser", "--ip=0.0.0.0", "--NotebookApp.token=''"]
 ###################################### ROS #####################################
 
 # install packages
-RUN apt-get update && apt-get install -q -y \
+RUN apt-get -o Acquire::ForceIPv4=true update && apt-get -o Acquire::ForceIPv4=true install -q -y \
     dirmngr \
     gnupg2 \
     lsb-release \
@@ -49,7 +49,7 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 421C365BD9
 RUN echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list
 
 # install bootstrap tools
-RUN apt-get update && apt-get install --no-install-recommends -y \
+RUN apt-get -o Acquire::ForceIPv4=true update && apt-get -o Acquire::ForceIPv4=true install --no-install-recommends -y \
     python-rosdep \
     python-rosinstall \
     python-vcstools \
@@ -62,7 +62,7 @@ RUN rosdep init \
 
 # install ros packages
 ENV ROS_DISTRO kinetic
-RUN apt-get update && apt-get install -y \
+RUN apt-get -o Acquire::ForceIPv4=true update && apt-get -o Acquire::ForceIPv4=true install -y \
     ros-kinetic-ros-base=1.3.2-0* \
     && rm -rf /var/lib/apt/lists/*
 
@@ -73,8 +73,8 @@ ENTRYPOINT ["/ros_entrypoint.sh"]
 
 ##################################### APT ######################################
 
-RUN apt-get update \
- && apt-get install -yq --no-install-recommends \
+RUN apt-get -o Acquire::ForceIPv4=true update \
+ && apt-get -o Acquire::ForceIPv4=true install -yq --no-install-recommends \
     libeigen3-dev \
     libboost-all-dev \
     qtbase5-dev \
@@ -91,21 +91,25 @@ RUN git clone https://github.com/jbehley/glow.git /glow \
  && mkdir -p ${HOME}/catkin_ws/src \
  && cp -R /glow ${HOME}/catkin_ws/src/. \
  && cd ${HOME}/catkin_ws \
- && apt-get update \
+ && apt-get -o Acquire::ForceIPv4=true update \
  && /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash && rosdep update && rosdep install --as-root apt:false --from-paths src --ignore-src -r -y" \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
  && /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash && catkin build" \
  && rm -fr /glow
 
+##################################### COPY #####################################
+
+RUN mkdir ${HOME}/fast-change-detection
+
+COPY . ${HOME}/fast-change-detection
+
 #################################### CATKIN ####################################
 
-RUN mkdir -p ${HOME}/catkin_ws/src/fast-change-detection
-
-COPY . ${HOME}/catkin_ws/src/fast-change-detection/.
+RUN mkdir -p ${HOME}/catkin_ws/src && ln -s ${HOME}/fast-change-detection ${HOME}/catkin_ws/src/.
 
 RUN cd ${HOME}/catkin_ws \
- && apt-get update \
+ && apt-get -o Acquire::ForceIPv4=true update \
  && /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash && rosdep update && rosdep install --as-root apt:false --from-paths src --ignore-src -r -y" \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
@@ -113,14 +117,10 @@ RUN cd ${HOME}/catkin_ws \
 
 RUN echo "source ~/catkin_ws/devel/setup.bash" >> ${HOME}/.bashrc
 
-##################################### COPY #####################################
-
-COPY . ${HOME}
-
 ##################################### TAIL #####################################
 
 RUN chown -R ${NB_UID} ${HOME}
 
 USER ${NB_USER}
 
-WORKDIR ${HOME}
+WORKDIR ${HOME}/fast-change-detection
