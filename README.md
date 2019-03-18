@@ -171,3 +171,10 @@ gunzip ../dataset/statue/model.obj.gz
 ```
 ./fastcd_example ../dataset/statue
 ```
+A 3D visualization of the model will appear. The changes are represented by the blue ellipsoids.
+Rotate the view with the mouse while the right button is pressed. The keyboard is mapped as following:
+* W/A/S/D -> Move around
+* Space -> Move up vertically
+* C -> Move down vertically
+* Shift -> Keep pressed to move faster
+* 1-0 -> Teleport the camera to the pose of one of the first 10 cameras
