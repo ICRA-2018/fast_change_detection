@@ -150,7 +150,8 @@ Tested on Ubuntu 16.04.6 with Docker 18.06.1-ce, NVIDIA Driver version 410.48.
 
 1. Open a terminal and run the command:
 ```
-nvidia-docker run --rm -p 8888:8888 -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix icra2018/fast-change-detection:latest
+nvidia-docker run --rm -p 8888:8888 -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix \
+  icra2018/fast-change-detection:latest
 ```
 2. Run a web browser and open the link: [http://localhost:8888/lab/tree/README.ipynb](http://localhost:8888/lab/tree/README.ipynb)
 
