@@ -1,6 +1,6 @@
 # Fast Change Detection
-<a href="#roslab-run"><img src="https://img.shields.io/badge/ROSLab-run-brightgreen.svg"></a>
-
+[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/icra2018/fast-change-detection.svg)](https://hub.docker.com/r/icra2018/fast-change-detection)
+<a href="#how-to-run-with-docker"><img src="https://img.shields.io/badge/Docker-instructions-brightgreen.svg"></a>
 ## Description
 
 The program allows to identify, in real-time, changes on a 3D model from a sequence of images.
@@ -138,43 +138,19 @@ Rotate the view with the mouse while the right button is pressed. The keyboard i
 
 ## License
 
-
 This project is licensed under the FreeBSD License. See the LICENSE.txt file for details.
 
-# ROSLab Run
+# How to Run with Docker
+## Linux
+#### Prerequisites
+* NVIDIA GPU
+* [nvidia-docker 2.0](https://github.com/nvidia/nvidia-docker/wiki/Installation-(version-2.0))
 
-## Prerequisites:
-* [Docker](https://www.docker.com/)
-* [nvidia-docker](https://github.com/nvidia/nvidia-docker/wiki/Installation-(version-2.0))
-* Tested on Ubuntu Linux 16.04, Docker version 18.06.1-ce, NVIDIA Driver version 410.48.
+Tested on Ubuntu 16.04.6 with Docker 18.06.1-ce, NVIDIA Driver version 410.48.
 
-## 1. Clone the repository and build ROSLab image:
+1. Open a terminal and run the command:
 ```
-git clone https://github.com/ICRA-2018/fast_change_detection.git
-cd fast_change_detection
-./roslab_build
+nvidia-docker run --rm -p 8888:8888 -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix icra2018/fast-change-detection:latest
 ```
-## 2. Launch ROSLab image:
-```
-./roslab_run
-```
-## 3. Open JupyterLab in your browser:
-[http://localhost:8888/lab/tree/README.ipynb](http://localhost:8888/lab/tree/README.ipynb)
+2. Run a web browser and open the link: [http://localhost:8888/lab/tree/README.ipynb](http://localhost:8888/lab/tree/README.ipynb)
 
-## 4. Run in JupyterLab:
-```
-cd ~/catkin_ws/src/fast-change-detection/bin
-```
-```
-gunzip ../dataset/statue/model.obj.gz
-```
-```
-./fastcd_example ../dataset/statue
-```
-A 3D visualization of the model will appear. The changes are represented by the blue ellipsoids.
-Rotate the view with the mouse while the right button is pressed. The keyboard is mapped as following:
-* W/A/S/D -> Move around
-* Space -> Move up vertically
-* C -> Move down vertically
-* Shift -> Keep pressed to move faster
-* 1-0 -> Teleport the camera to the pose of one of the first 10 cameras
