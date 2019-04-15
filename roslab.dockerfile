@@ -104,7 +104,7 @@ RUN git clone https://github.com/jbehley/glow.git /glow \
 
 RUN mkdir ${HOME}/fast-change-detection
 
-COPY . ${HOME}/fast-change-detection
+COPY --chown=1000:1000 . ${HOME}/fast-change-detection
 
 #################################### CATKIN ####################################
 
@@ -121,8 +121,8 @@ RUN echo "source ~/catkin_ws/devel/setup.bash" >> ${HOME}/.bashrc
 
 ##################################### TAIL #####################################
 
-RUN chown -R ${NB_UID} ${HOME}
-
+RUN chown ${NB_UID} ${HOME}/fast-change-detection
+ 
 USER ${NB_USER}
 
 WORKDIR ${HOME}/fast-change-detection
