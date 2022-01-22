@@ -146,11 +146,14 @@ This project is licensed under the FreeBSD License. See the LICENSE.txt file for
 * NVIDIA GPU
 * [nvidia-docker 2.0](https://github.com/nvidia/nvidia-docker/wiki/Installation-(version-2.0))
 
-Tested on Ubuntu 16.04.6 with Docker 18.06.1-ce, NVIDIA Driver version 410.48.
+Tested on:
+* Ubuntu 16.04.6 with Docker 18.06.1-ce, NVIDIA Driver version 410.48.
+* Ubuntu 20.04.3 with Docker 19.03.13, NVIDIA Driver version 460.91.03.
 
 1. Open a terminal and run the command:
 ```
-nvidia-docker run --rm -p 8888:8888 -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix \
+docker run --gpus all --rm -p 8888:8888 \
+  -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix \
   icra2018/fast-change-detection:latest
 ```
 2. Run a web browser and open the link: [http://localhost:8888/lab/tree/README.ipynb](http://localhost:8888/lab/tree/README.ipynb)
